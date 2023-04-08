@@ -8,6 +8,9 @@ public class Movement : MonoBehaviour
     float speed = 1000f;
     float RotateSpeed = 180f;
     AudioSource thrustingST;
+    [SerializeField] ParticleSystem booster;
+    [SerializeField] ParticleSystem LsideBooster;
+    [SerializeField] ParticleSystem RsideBooster;
     // Start is called before the first frame update
     void Start()
     {
@@ -16,15 +19,13 @@ public class Movement : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        AudioThrust();
-    }
-
     private void FixedUpdate()
     {
-        ThrustingShip();
-        RotateShip();
+        if (GameManager.instance.canMove)
+        {
+            ThrustingShip();
+            RotateShip();
+        }
     }
 
     void ThrustingShip()
@@ -32,20 +33,21 @@ public class Movement : MonoBehaviour
         if (Input.GetButton("Jump"))
         {
             rb.AddRelativeForce(Vector3.up  * speed * Time.deltaTime);
+            if (!thrustingST.isPlaying)
+            {
+                thrustingST.Play();
+            }
+            if (!booster.isPlaying)
+            {
+                booster.Play();
+            }
         }
-        
-    }
-
-    void AudioThrust()
-    {
-        if (Input.GetButtonDown("Jump")) { 
-            thrustingST.Play();
-        }
-        if (Input.GetButtonUp("Jump"))
+        else
         {
             thrustingST.Stop();
+            booster.Stop();
         }
-
+        
     }
 
     void RotateShip()
@@ -53,10 +55,23 @@ public class Movement : MonoBehaviour
         if (Input.GetKey(KeyCode.A))
         {
             ApplyTheRotation(RotateSpeed);
+            if(!RsideBooster.isPlaying)
+            {
+                RsideBooster.Play();
+            }
         }
-        if (Input.GetKey(KeyCode.D))
+        else if (Input.GetKey(KeyCode.D))
         {
             ApplyTheRotation(-RotateSpeed);
+            if (!LsideBooster.isPlaying)
+            {
+                LsideBooster.Play();
+            }
+        }
+        else
+        {
+            RsideBooster.Stop();
+            LsideBooster.Stop();
         }
 
     }
