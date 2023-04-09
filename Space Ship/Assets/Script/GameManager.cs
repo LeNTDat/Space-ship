@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
     public bool canMove = false;
     public bool isAlive = false;
+    public bool DisabledCollision = false;
     float delayLoading = 1.5f;
 
     private void Awake()
@@ -22,6 +23,11 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         GameStarter();
+    }
+
+    private void Update()
+    {
+        BtnGameControll();
     }
 
     void GameStarter ()
@@ -42,6 +48,17 @@ public class GameManager : MonoBehaviour
             case "Obstacle":
                 Invoke("ReloadLevel", delayLoading);
                 break;
+        }
+    }
+
+    void BtnGameControll()
+    {
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            ReloadLevel();
+        }else if (Input.GetKeyDown(KeyCode.C))
+        {
+            DisabledCollision = !DisabledCollision;
         }
     }
 

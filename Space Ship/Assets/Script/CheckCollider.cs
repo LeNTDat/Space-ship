@@ -20,7 +20,7 @@ public class CheckCollider : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (!GameManager.instance.isAlive) { return; }
+        if (!GameManager.instance.isAlive || GameManager.instance.DisabledCollision) { return; }
         switch (collision.gameObject.tag)
         {
             case "Start":

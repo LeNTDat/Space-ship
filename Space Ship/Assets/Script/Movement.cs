@@ -32,15 +32,7 @@ public class Movement : MonoBehaviour
     {
         if (Input.GetButton("Jump"))
         {
-            rb.AddRelativeForce(Vector3.up  * speed * Time.deltaTime);
-            if (!thrustingST.isPlaying)
-            {
-                thrustingST.Play();
-            }
-            if (!booster.isPlaying)
-            {
-                booster.Play();
-            }
+            ThrustProcess();
         }
         else
         {
@@ -48,6 +40,19 @@ public class Movement : MonoBehaviour
             booster.Stop();
         }
         
+    }
+
+    private void ThrustProcess()
+    {
+        rb.AddRelativeForce(Vector3.up * speed * Time.deltaTime);
+        if (!thrustingST.isPlaying)
+        {
+            thrustingST.Play();
+        }
+        if (!booster.isPlaying)
+        {
+            booster.Play();
+        }
     }
 
     void RotateShip()
