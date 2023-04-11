@@ -8,7 +8,7 @@ public class ObstacleMove : MonoBehaviour
     Vector3 startPos;
     [SerializeField] Vector3 MovementVector;
     [SerializeField] [Range(0,1)] float MovementFactor;
-    float period = 2f;
+    [SerializeField] float period;
 
 
     // Start is called before the first frame update
@@ -26,6 +26,7 @@ public class ObstacleMove : MonoBehaviour
 
     void MoveObj() 
     {
+        if(period <= Mathf.Epsilon) { return; }
         float circle = Time.time / period;
         float tau = Mathf.PI * 2;
         float rawSinWave = Mathf.Sin(circle * tau);

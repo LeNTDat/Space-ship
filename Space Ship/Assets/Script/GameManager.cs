@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -7,6 +6,7 @@ public class GameManager : MonoBehaviour
 {
 
     public static GameManager instance;
+    public static bool isStart = false;
     public bool canMove = false;
     public bool isAlive = false;
     public bool DisabledCollision = false;
@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        GameStarter();
+        gameControl();
     }
 
     private void Update()
@@ -30,10 +30,24 @@ public class GameManager : MonoBehaviour
         BtnGameControll();
     }
 
-    void GameStarter ()
+    public void GameStarter ()
     {
-        canMove = true;
-        isAlive = true;
+        isStart = true;
+        NextLevel();
+    }
+
+    void gameControl()
+    {
+        if(isStart)
+        {
+            canMove = true;
+            isAlive = true;
+        }
+    }
+
+    public void QuitApplication()
+    {
+        Application.Quit();
     }
 
     public void DelayCall(string status)
@@ -69,7 +83,7 @@ public class GameManager : MonoBehaviour
         nextLevel = level + 1;
         if (nextLevel == SceneManager.sceneCountInBuildSettings)
         {
-            nextLevel = 0;
+            nextLevel = 1;
         }
         SceneManager.LoadScene(nextLevel);
     }
